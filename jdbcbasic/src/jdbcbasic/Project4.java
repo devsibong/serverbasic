@@ -18,7 +18,7 @@ public class Project4 {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		Connection con = DriverManager.getConnection(url, "choi", "1213");
 		PreparedStatement st = con.prepareStatement(sql);
-		st.setInt(1, id);
+		st.setInt(4, id);
 		
 		int result = st.executeUpdate();
 		
