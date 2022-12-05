@@ -17,12 +17,23 @@ public class NoticeService {
 	private String driver = "oracle.jdbc.driver.OracleDriver";
 	private String uid = "choi";
 	private String pwd = "1213"; 
-	public List<Notice> getList() throws SQLException, ClassNotFoundException {
-		String sql = "DELETE NOTICE WHERE ID=?";
+	public List<Notice> getList(int page) throws SQLException, ClassNotFoundException {
+		
+		int start = 1 + (page-1)*10;
+		int end = 10*page;
+		
+		String sql = "SELECT * FROM ("
+				+ "    SELECT ROWNUM NUM, N.* FROM ("
+				+ "        SELECT * FROM NOTICE ORDER BY REGDATE DESC"
+				+ "    ) N"
+				+ ")"
+				+ "WHERE NUM BETWEEN ? AND ?";
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
-		Statement st = con.createStatement();
-		ResultSet rs = st.executeQuery(sql);
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setInt(1, start);
+		st.setInt(2, end);
+		ResultSet rs = st.executeQuery();
 		
 		List<Notice> list = new ArrayList<Notice>();
 		
@@ -101,12 +112,12 @@ public class NoticeService {
 	}
 	
 	public int delete(int id) throws SQLException, ClassNotFoundException {
-		String sql = "DELETE NOTICE WHERE ID=?";
+		String sql = "DELETE NOTICE WHERE ID = ?";
 		
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
 		PreparedStatement st = con.prepareStatement(sql);
-		st.setInt(4, id);
+		st.setInt(1, id);
 		
 		int result = st.executeUpdate();
 		
