@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+body, ul, li{
+	margin:0;
+	padding:0;	
+}
+
+li{
+	list-style-type:none;
+}
+
+a:link, a:visited, a:hover{
+	text-decoration:none; /* overline, underline, line-through*/
+}
+.container{
+		width:1000px;
+		margin:0 auto;
+}
+.word-cut{
+	white-space:nowrap;/*줄바꾸지 말아라*/
+	overflow:hidden;/*넘친문자 숨겨*/
+	text-overflow:ellipsis;/*넘친값이 있으면 ...표시*/	
+}
